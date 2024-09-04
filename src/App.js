@@ -22,24 +22,20 @@ function App() {
   };
 
   const handleChange = (e) => {
-    console.log('Change event triggered for:', e.target.name, 'with value:', e.target.value);
     const { name, value } = e.target;
-    if (['volume', 'cost'].includes(name)) {
+  
+    if (name.startsWith('current')) {
       const [prefix, type] = name.split('-');
-      setFormData(prev => {
-        const newState = {
-          ...prev,
-          [prefix]: {...prev[prefix], [type]: value}
-        };
-        console.log('New state for', name, ':', newState);
-        return newState;
-      });
+      setFormData(prev => ({
+        ...prev,
+        [prefix]: { ...prev[prefix], [type]: value }
+      }));
+      console.log('New state for', name, ':', formData);
     } else {
-      setFormData(prev => {
-        const newState = {...prev, [name]: value};
-        console.log('New state for', name, ':', newState);
-        return newState;
-      });
+      setFormData(prev => ({
+        ...prev,
+        [name]: value
+      }));
     }
   };
 
