@@ -54,9 +54,9 @@ function App() {
         <div className="card">
           <h2>SB 1383 Compliance Calculator</h2>
           <div className="tabs">
-            <button className={activeTab === 1 ? 'active' : ''}>City/County</button>
-            <button className={activeTab === 2 ? 'active' : ''}>Details</button>
-            <button className={activeTab === 3 ? 'active' : ''}>Review</button>
+            <button className={activeTab === 1 ? 'active' : ''}>Step 1: Enter Data</button>
+            <button className={activeTab === 2 ? 'active' : ''}>Step 2: View Results</button>
+            <button className={activeTab === 3 ? 'active' : ''}>Step 3: Next Steps</button>
           </div>
 
           <div className="tab-content">
