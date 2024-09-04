@@ -24,7 +24,7 @@ function App() {
   const handleChange = (e) => {
     console.log('Change event triggered for:', e.target.name, 'with value:', e.target.value);
     const { name, value } = e.target;
-    if (['volume', 'cost'].includes(name)) {
+    if (name.includes('current')) {
       const [prefix, type] = name.split('-');
       setFormData(prev => {
         const newState = {
