@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import './App.css';
 
+const TAB_NAMES = ['Compost', 'Mulch', 'RNG', 'Biomass', 'Other'];
+const UNITS = ['tons', 'cubic yards', 'ton', 'DGE', 'kWh', 'therms']
+
 function App() {
   const [activeTab, setActiveTab] = useState(1);
   const [formData, setFormData] = useState({
@@ -22,11 +25,20 @@ function App() {
   };
 
   const handleChange = (e) => {
-    console.log('Change event triggered for:', e.target.name, 'with value:', e.target.value);
+    console.log(
+      "Change event triggered for:",
+      e.target.name,
+      "with value:",
+      e.target.value
+    );
     const { name, value } = e.target;
-    if (['volume', 'cost'].includes(name)) {
-      const [prefix, type] = name.split('-');
-      setFormData(prev => {
+    // This checks if the name of the field is 'equal' either volume or cost. But we want to check that if the name 'includes' 'volume' or 'cost'
+
+    // if (["volume", "cost"].includes(name)) This is the Wrong way
+
+    if (name.includes("-")) { // This is the right way
+      const [prefix, type] = name.split("-");
+      setFormData((prev) => {
         const newState = {
           ...prev,
           [prefix]: {...prev[prefix], [type]: value}
@@ -101,7 +113,7 @@ function App() {
                 </div>
               </div>
               <h2>Procurement Details</h2>
-              {['Compost', 'Mulch', 'RNG', 'Biomass', 'Other'].map(item => (
+              {TAB_NAMES.map(item => (
                 <div key={item} className="procurement-item">
                   <h3>Current Procurement of {item}</h3>
                   <div className="input-group">
@@ -118,7 +130,7 @@ function App() {
                     onChange={handleChange}
                   >
                     <option value="">Select Unit</option>
-                    {['tons', 'cubic yards', 'ton', 'DGE', 'kWh', 'therms'].map(unit => (
+                    {UNITS.map(unit => (
                       <option key={unit} value={unit}>{unit}</option>
                     ))}
                   </select>
