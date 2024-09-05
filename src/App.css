@@ -55,21 +55,6 @@ body {
   margin-bottom: 20px;
 }
 
-/* Media query for smaller screens */
-@media (max-width: 600px) {
-  .background-div {
-    padding-top: 20vh; /* Less overlap on mobile for better visibility */
-  }
-
-  .card {
-    margin-top: -5vh; /* Adjust overlap for mobile */
-    max-width: none; /* Allow card to take full width */
-    width: calc(100% - 30px); /* Adjust width for padding */
-    left: 15px; /* Adjust left to align with padding */
-    transform: none; /* Reset transform for mobile */
-  }
-}
-
 .tabs-container {
   margin-bottom: 20px;
   border-bottom: 1px solid #000000; /* This creates the line under the tabs */
@@ -129,19 +114,6 @@ body {
   padding-top: 5px;
   border: 1px solid #ccc;
 }
-
-/* Media query for mobile devices */
-@media (max-width: 768px) {
-  .input-group {
-    flex-direction: column;
-  }
-
-  .input-group input {
-    width: 80%; /* Full width on mobile */
-    margin: 5px auto; /* Center inputs with some vertical spacing */
-  }
-}
-
 
 .tabs button.active {
   background: #007bff;
@@ -303,4 +275,126 @@ button:disabled {
 
 .procurement-details {
   margin-top: 2em;
+}
+
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Two columns */
+  gap: 10px;
+  width: 100%;
+}
+
+.grid-header, .grid-cell {
+  padding: 10px;
+  text-align: center;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+}
+
+.grid-header {
+  font-weight: bold;
+  background-color: #e0e0e0;
+}
+
+.mobile-label {
+  display: none;
+}
+
+.default-label {
+  display: block;
+}
+
+.unit-label {
+  display: none; /* Hidden by default for larger screens */
+  margin-bottom: 5px;
+}
+
+/* Media query for mobile devices */
+@media (max-width: 768px) {
+  .input-group {
+    flex-direction: column;
+  }
+
+  .input-group input {
+    width: 80%; /* Full width on mobile */
+    margin: 5px auto; /* Center inputs with some vertical spacing */
+  }
+
+  .input-wrapper label {
+    position: absolute;
+    top: -15px;
+    left: 2em;
+    font-size: 12px;
+    color: #444;
+    transition: all 0.2s;
+    background: ghostwhite;
+    padding: 0 5px;
+    pointer-events: none;
+  }
+}
+
+/* Media query for smaller screens */
+@media (max-width: 600px) {
+  .background-div {
+    padding-top: 20vh; /* Less overlap on mobile for better visibility */
+  }
+
+  .card {
+    margin-top: -5vh; /* Adjust overlap for mobile */
+    max-width: none; /* Allow card to take full width */
+    width: calc(90% - 30px); /* Adjust width for padding */
+    left: 15px; /* Adjust left to align with padding */
+    transform: none; /* Reset transform for mobile */
+  }
+  .grid-container {
+    grid-template-columns: 1fr; /* Stack vertically on mobile */
+  }
+  .header {
+    display: none; /* Optionally hide headers on mobile */
+  }
+  .grid-item:nth-child(odd) { /* Style for year on mobile */
+    font-weight: bold;
+    background-color: #e0e0e0;
+  }
+  .input-group {
+    flex-direction: row; /* Keep row direction */
+    justify-content: space-between; /* Space evenly */
+  }
+
+  .input-wrapper, .select-wrapper {
+    flex: 1 1 calc(33.333% - 10px); /* Roughly a third of the container minus gap */
+    margin-bottom: 5px; /* Space if they wrap */
+  }
+  .mobile-label {
+    display: block;
+    /* Additional mobile styling if needed */
+    font-size: 0.8em;
+    margin-bottom: 5px;
+  }
+
+  .default-label {
+    display: none;
+  }
+  .unit-label {
+    display: block; /* Show on mobile */
+    font-size: 0.8em;
+  }
+
+  .select-wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Optionally, if you want to style the first option differently on mobile */
+  .option-value {
+    color: grey; /* To mimic placeholder text color */
+  }
+
+  select:invalid {
+    color: grey; /* Ensures the 'Select' option text color is grey until a selection is made */
+  }
+
+  select option {
+    color: black; /* Normal color for other options */
+  }
 }

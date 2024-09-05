@@ -142,16 +142,12 @@ function App() {
                   <h4>Population: {formData.population ? parseInt(formData.population).toLocaleString() : ''}</h4>
                   <h3>SB 1383 ROWP Procurement Requirement</h3>
                   <p>Note: SB1383 requirement is .08 tons per person</p>
-                  <div className="calculation-table">
-                    <div className="table-header">
-                      <div>2024</div>
-                      <div>2025 and beyond</div>
-                    </div>
-                    <div className="table-row">
-                      <div>{(formData.population * 0.8 * 0.65).toLocaleString(undefined, { maximumFractionDigits: 0 })}</div>
-                      <div>{(formData.population * 0.8).toLocaleString(undefined, { maximumFractionDigits: 0 })}</div>
-                    </div>
-                </div>
+                  <div class="results-grid">
+                    <div class="grid-header">2024</div>
+                    <div class="grid-header">2025 and beyond</div>
+                    <div class="grid-cell">{(formData.population * 0.8 * 0.65).toLocaleString(undefined, { maximumFractionDigits: 0 })}</div>
+                    <div class="grid-cell">{(formData.population * 0.8).toLocaleString(undefined, { maximumFractionDigits: 0 })}</div>
+                  </div>
               </div>
               <h2 className="procurement-details">Procurement Details</h2>
                 {['Compost', 'Mulch', 'RNG', 'Biomass', 'Other'].map(item => (
@@ -162,31 +158,40 @@ function App() {
                         <input 
                           type="text" 
                           name={`current${item}-volume`} 
+                          id={`current${item}-volume`}
                           value={formData[`current${item}`].volume} 
                           onChange={handleChange} 
                           placeholder="0" 
                           defaultValue="0" // Set default value here
                           required
                         />
-                        <label>{`Volume of ${item}`}</label>
+                        <label className="default-label" for={`current${item}-volume`}>{`Volume of ${item}`}</label>
+                        <label className="mobile-label" for={`current${item}-volume`}>Volume</label>
                       </div>
                       <div className="select-wrapper">
+                      <label className="unit-label">Unit</label>
                         <select 
                           name={`current${item}-unit`}
                           value={formData[`current${item}`].unit}
                           onChange={handleChange}
+                          required
                         >
-                          <option value="">Select Unit</option>
+                          
+                          <option className="option-value" value="" hidden>Select</option>
+                          
                           {['tons', 'cubic yards', 'ton', 'DGE', 'kWh', 'therms'].map(unit => (
                             <option key={unit} value={unit}>{unit}</option>
+                        
                           ))}
                         </select>
+                        
                       </div>
                       
                       <div className="input-wrapper">
                         <input 
                           type="text" 
                           name={`current${item}-cost`} 
+                          id={`current${item}-cost`}
                           value={formData[`current${item}`].cost} 
                           onChange={(e) => handleCurrencyChange(e, item)}  
                           placeholder="0" 
@@ -198,7 +203,8 @@ function App() {
                             }
                           }}
                         />
-                        <label>{`Current Cost of ${item}`}</label>
+                        <label className="default-label" for={`current${item}-cost`}>{`Current Cost of ${item}`}</label>
+                        <label className="mobile-label" for={`current${item}-cost`}>Cost</label>
                       </div>
                     </div>
                   </div>
