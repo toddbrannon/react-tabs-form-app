@@ -21,6 +21,50 @@ function App() {
     if (activeTab > 1) setActiveTab(activeTab - 1);
   };
 
+  const handleCurrencyChange = (e, item) => {
+    const { name, value } = e.target;
+    
+    // Remove all non-numeric characters except for the decimal point
+    let numericValue = value.replace(/[^0-9.]/g, '');
+    
+    // Prevent multiple decimal points
+    const decimalCount = (numericValue.match(/\./g) || []).length;
+    if (decimalCount > 1) {
+      numericValue = numericValue.replace(/\.$/, ''); // Remove the last decimal if there are multiple
+    }
+  
+    // If the value is empty or just a decimal point, set it to '0'
+    if (numericValue === '' || numericValue === '.') numericValue = '0';
+  
+    // Parse the number, allowing for large numbers
+    const number = parseFloat(numericValue);
+  
+    // Format to currency, but ensure it can handle large numbers
+    const formattedValue = formatToCurrency(number);
+  
+    setFormData(prev => ({
+      ...prev,
+      [`current${item}`]: {
+        ...prev[`current${item}`],
+        cost: formattedValue
+      }
+    }));
+  
+    // Update the input value with the numeric value for calculations
+    e.target.value = numericValue;
+  };
+  
+  // Ensure formatToCurrency can handle large numbers
+  function formatToCurrency(amount) {
+    return new Intl.NumberFormat('en-US', { 
+      style: 'currency', 
+      currency: 'USD',
+      // Use maximumSignificantDigits instead of maximumFractionDigits for larger numbers
+      maximumSignificantDigits: 21, // This allows for very large numbers while still showing cents
+      minimumFractionDigits: 2,
+    }).format(amount);
+  }
+
   const handleChange = (e) => {
     console.log('Change event triggered for:', e.target.name, 'with value:', e.target.value);
     const { name, value } = e.target;
@@ -49,8 +93,8 @@ function App() {
   return (
     <div className="App">
       <img src="/logo.png" alt="Logo" style={{ width: '100px', margin: '20px auto', display: 'block' }} />
-      <h1>Valinor Energy</h1>
-      <div className="background-div">
+      <h1 className="title">Valinor Energy</h1>
+      <div className="background-div">       
         <div className="card">
           <h2>SB 1383 Compliance Calculator</h2>
           <div className="tabs">
@@ -104,8 +148,8 @@ function App() {
                       <div>2025 and beyond</div>
                     </div>
                     <div className="table-row">
-                      <div>{(formData.population * 0.8 * 0.65).toLocaleString(undefined, { maximumFractionDigits: 2 })}</div>
-                      <div>{(formData.population * 0.8).toLocaleString(undefined, { maximumFractionDigits: 2 })}</div>
+                      <div>{(formData.population * 0.8 * 0.65).toLocaleString(undefined, { maximumFractionDigits: 0 })}</div>
+                      <div>{(formData.population * 0.8).toLocaleString(undefined, { maximumFractionDigits: 0 })}</div>
                     </div>
                 </div>
               </div>
@@ -144,10 +188,15 @@ function App() {
                           type="text" 
                           name={`current${item}-cost`} 
                           value={formData[`current${item}`].cost} 
-                          onChange={handleChange} 
+                          onChange={(e) => handleCurrencyChange(e, item)}  
                           placeholder="0" 
                           defaultValue="0"
                           required
+                          onBlur={(e) => {
+                            if (e.target.value === '$0.00') {
+                              e.target.value = ''; // Clear the field if it's just the default value
+                            }
+                          }}
                         />
                         <label>{`Current Cost of ${item}`}</label>
                       </div>

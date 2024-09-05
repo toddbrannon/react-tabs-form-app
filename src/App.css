@@ -9,34 +9,65 @@ body {
 }
 
 .App {
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: 0; /* Ensure no padding interferes with full height */
+  margin: 0; /* Reset margin */
 }
 
 .background-div {
   background-color: #293C56;
-  position: absolute;
-  min-height: 100%;
-  padding-bottom: 60px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: 34vh 15px 60px; /* Adjust padding for mobile */
   box-sizing: border-box;
-  top: 34vh;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  padding-bottom: 60px;
   z-index: 1;
+  position: relative;
+}
+
+.card-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative; /* For absolute positioning of card if needed */
 }
 
 .card {
   background: ghostwhite;
-  margin: 10vh auto 0; /* Adjusted margin to make it overlap */
+  margin: -7vh auto 0;
   max-width: 600px;
+  width: 100%; /* Full width on mobile, but respects max-width */
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   border-radius: 2px;
-  position: relative; /* To ensure it sits above the background div */
-  overflow: visible;
-  z-index: 2; /* Higher z-index to overlap */
-  margin-top: -10vh; /* Negative margin to overlap with the white background */
-  margin-bottom: 40px;
+  position: absolute;
+  top: 0; /* Negative value to create overlap */
+  left: 50%; /* Center the card horizontally */
+  transform: translateX(-50%); /* Adjust for true centering due to absolute positioning */
+  width: 80%;
+  overflow-y: auto;
+  z-index: 1;
+  flex-shrink: 0; /* Prevents the card from shrinking */
+  margin-bottom: 20px;
+}
+
+/* Media query for smaller screens */
+@media (max-width: 600px) {
+  .background-div {
+    padding-top: 20vh; /* Less overlap on mobile for better visibility */
+  }
+
+  .card {
+    margin-top: -5vh; /* Adjust overlap for mobile */
+    max-width: none; /* Allow card to take full width */
+    width: calc(100% - 30px); /* Adjust width for padding */
+    left: 15px; /* Adjust left to align with padding */
+    transform: none; /* Reset transform for mobile */
+  }
 }
 
 .tabs-container {
@@ -127,7 +158,7 @@ body {
   padding: 20px;
 }
 
-h2, form, p {
+h1, h2, h3, form, p {
   text-align: center;
 }
 
@@ -192,6 +223,10 @@ button:disabled {
   width: auto;
   margin-top: 10px auto;
   border-collapse: collapse;
+}
+
+.title {
+  margin-bottom: 5em;
 }
 
 .table-header, .table-row {
